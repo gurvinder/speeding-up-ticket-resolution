@@ -9,7 +9,7 @@ on:
         default: 'dev'
         type: string
   schedule:
-    - cron: '0 5 * * *'  # Run daily at 5 AM UTC
+    - cron: '0 10 * * *'  # Run daily at 10 AM UTC
 
 env:
   UV_VERSION: "0.8.9"
@@ -84,18 +84,11 @@ jobs:
         run: |
           kubectl config set-context --current --namespace=${{ env.E2E_NAMESPACE }}
 
-      - name: Install evaluations dependencies
-        shell: bash
-        working-directory: it-self-service-agent
-        run: |
-          make sync-evaluations
-
       - name: Run ticket laptop refresh flow evaluation
         if: always()
         shell: bash
-        working-directory: it-self-service-agent
         run: |
-          make test-short-ticket-laptop-refresh-scout-deploy
+          make test-long-ticket-laptop-refresh
         env:
           LLM_URL: ${{ vars.LLM_URL_EVAL_70B }}
           LLM_API_TOKEN: ${{ secrets.LLM_API_TOKEN_EVAL_70B }}
