@@ -15,7 +15,7 @@ When creating a tag, note the **upstream submodule SHA** this wrapper was tested
 
 ```text
 ticket-resolution-agent v2026.04.17
-  submodule it-self-service-agent @ 4e8ce6ba621cc79d50cd71adc10c5be4e22faf72
+  submodule it-self-service-agent @ 790351abb8ce23940258650674700e5c56a4b1bf
   optional: OpenShift / OAI / Zammad versions validated
 ```
 
@@ -29,6 +29,6 @@ git push origin v2026.04.17
 
 Replace the message with your actual smoke-test notes.
 
-## Dependabot submodule PRs
+## Nightly submodule bump PRs
 
-[Dependabot](../.github/dependabot.yml) may open weekly PRs that bump `it-self-service-agent`. Merge only after validating upstream changes and updating [upstream.md](upstream.md); treat tags as snapshots **after** those merges if you release often.
+The [nightly submodule bump workflow](../.github/workflows/nightly-submodule-bump.yml) may open nightly PRs that bump `it-self-service-agent`. Merge only after validating upstream changes and updating [upstream.md](upstream.md); treat tags as snapshots **after** those merges if you release often.
