@@ -4,7 +4,7 @@ This document describes **wrapper glue** (root **`Makefile`**, **`examples/`**) 
 
 ## Glue plan
 
-**Goal:** Operators can run installs from the **repository root** without memorizing paths, while **install logic remains** in [it-self-service-agent/Makefile](https://github.com/rh-ai-quickstart/it-self-service-agent/blob/a81403125b7f3deda8f37f888e66cb65378a6382/Makefile).
+**Goal:** Operators can run installs from the **repository root** without memorizing paths, while **install logic remains** in [it-self-service-agent/Makefile](https://github.com/rh-ai-quickstart/it-self-service-agent/blob/8d7da399430629feecab61326eb8b4445cf22a0a/Makefile).
 
 | Artifact | Role |
 |----------|------|
@@ -18,7 +18,7 @@ This document describes **wrapper glue** (root **`Makefile`**, **`examples/`**) 
 
 ## Maintainer checklist
 
-Use these checks when reviewing **submodule bumps**, **Dependabot PRs**, or **release tags**.
+Use these checks when reviewing **submodule bumps**, **nightly bump PRs**, or **release tags**.
 
 ### 1. Submodule pin (source of truth)
 
@@ -34,7 +34,7 @@ Use these checks when reviewing **submodule bumps**, **Dependabot PRs**, or **re
 |--------|--------|
 | Submodule checks out and `Makefile` exists | [.github/workflows/ci.yml](../.github/workflows/ci.yml) `verify-submodule` |
 | Docs/links not badly broken | **`make check-links`** in CI (`markdown-links` job, non-blocking)—same script as locally |
-| Dependabot proposed bump | [.github/dependabot.yml](../.github/dependabot.yml)—merge only after manual validation and doc updates |
+| Nightly submodule bump | [.github/workflows/nightly-submodule-bump.yml](../.github/workflows/nightly-submodule-bump.yml)—merge only after manual validation and doc updates |
 
 ### 3. Glue sanity (after changing the root Makefile)
 
