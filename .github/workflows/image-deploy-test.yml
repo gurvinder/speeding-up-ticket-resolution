@@ -88,17 +88,20 @@ jobs:
       - name: Verify expected deployments exist
         shell: bash
         run: |
-          EXPECTED_DEPLOYMENTS=("request-manager" "agent-service" "integration-dispatcher" "mock-eventing" "mock-servicenow")
-          CHART_NAME=$(helm list -n ${{ env.E2E_NAMESPACE }} -q | head -1)
+          echo "--- All deployments in namespace ---"
+          kubectl get deployments -n ${{ env.E2E_NAMESPACE }} -o custom-columns=NAME:.metadata.name,READY:.status.readyReplicas,AVAILABLE:.status.availableReplicas
+          echo ""
+          CHART_NAME="self-service-agent"
           MISSING=()
-          for dep in "${EXPECTED_DEPLOYMENTS[@]}"; do
+          # Core services use <chart>-<service> naming
+          for dep in "request-manager" "agent-service" "integration-dispatcher" "mock-eventing" "mock-servicenow"; do
             if ! kubectl get deployment "${CHART_NAME}-${dep}" -n ${{ env.E2E_NAMESPACE }} &>/dev/null; then
-              MISSING+=("${dep}")
+              MISSING+=("${CHART_NAME}-${dep}")
             fi
           done
-          # MCP snow is deployed via subchart with a different naming convention
-          if ! kubectl get deployment -n ${{ env.E2E_NAMESPACE }} -l "app.kubernetes.io/name=mcp-servers" --no-headers 2>/dev/null | grep -q .; then
-            MISSING+=("mcp-snow (subchart)")
+          # MCP snow subchart uses mcp-self-service-agent-snow naming
+          if ! kubectl get deployment "mcp-self-service-agent-snow" -n ${{ env.E2E_NAMESPACE }} &>/dev/null; then
+            MISSING+=("mcp-self-service-agent-snow")
           fi
           if [ ${#MISSING[@]} -gt 0 ]; then
             echo "❌ Missing expected deployments: ${MISSING[*]}"
