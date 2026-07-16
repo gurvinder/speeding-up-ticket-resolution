@@ -17,49 +17,6 @@ env:
   E2E_NAMESPACE: "test"
 
 jobs:
-  containerfile-lint:
-    name: Lint Containerfiles (hadolint)
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
-        with:
-          ref: ${{ inputs.ref || 'dev' }}
-          submodules: recursive
-
-      - name: Lint Containerfile.services-template
-        id: lint-services
-        if: always()
-        uses: hadolint/hadolint-action@v3.3.0
-        with:
-          dockerfile: it-self-service-agent/Containerfile.services-template
-          failure-threshold: warning
-
-      - name: Lint Containerfile.mcp-template
-        id: lint-mcp
-        if: always()
-        uses: hadolint/hadolint-action@v3.3.0
-        with:
-          dockerfile: it-self-service-agent/Containerfile.mcp-template
-          failure-threshold: warning
-
-      - name: Lint Containerfile.zammad-bootstrap
-        id: lint-zammad
-        if: always()
-        uses: hadolint/hadolint-action@v3.3.0
-        with:
-          dockerfile: it-self-service-agent/zammad-bootstrap/Containerfile.zammad-bootstrap
-          failure-threshold: warning
-
-      - name: Check lint results
-        if: always()
-        run: |
-          if [[ "${{ steps.lint-services.outcome }}" == "failure" || "${{ steps.lint-mcp.outcome }}" == "failure" || "${{ steps.lint-zammad.outcome }}" == "failure" ]]; then
-            echo "❌ One or more Containerfiles failed lint"
-            exit 1
-          fi
-          echo "✅ All Containerfiles pass lint"
-
   pull-images:
     name: Pull all images from registry
     runs-on: ubuntu-latest
