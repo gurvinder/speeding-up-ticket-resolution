@@ -19,6 +19,7 @@ env:
   UV_VERSION: "0.8.9"
   PYTHON_VERSION: "3.12"
   E2E_NAMESPACE: "test"
+  CONTAINER_TOOL: "docker"
 
 jobs:
   pull-images:
