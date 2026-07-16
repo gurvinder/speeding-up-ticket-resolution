@@ -127,3 +127,13 @@ build-all-images:
 push-all-images:
 	@test -f $(SUBMODULE)/Makefile || { echo "error: submodule missing; run: git submodule update --init --recursive"; exit 1; }
 	$(MAKE) -C $(SUBMODULE) push-all-images $(VERSION_ARG)
+
+.PHONY: pull-all-images
+pull-all-images:
+	@test -f $(SUBMODULE)/Makefile || { echo "error: submodule missing; run: git submodule update --init --recursive"; exit 1; }
+	$(MAKE) -C $(SUBMODULE) pull-all-images $(VERSION_ARG)
+
+.PHONY: retag-all-images
+retag-all-images:
+	@test -f $(SUBMODULE)/Makefile || { echo "error: submodule missing; run: git submodule update --init --recursive"; exit 1; }
+	$(MAKE) -C $(SUBMODULE) retag-all-images $(VERSION_ARG)
