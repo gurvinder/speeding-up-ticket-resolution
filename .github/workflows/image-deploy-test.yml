@@ -160,7 +160,7 @@ jobs:
       - name: Push images to local Kind registry
         shell: bash
         run: |
-          make push-all-images REGISTRY=localhost:5001 PUSH_EXTRA_AGRS="--tls-verify=false"
+          make push-all-images REGISTRY=localhost:5001 VERSION=${{ steps.version.outputs.tag }}
 
       - name: Create namespace
         shell: bash
@@ -180,6 +180,7 @@ jobs:
           make helm-install-test \
             NAMESPACE=${{ env.E2E_NAMESPACE }} \
             REGISTRY=localhost:5001 \
+            VERSION=${{ steps.version.outputs.tag }} \
             LLM=${{ vars.LLM_INFERENCE }} \
             LLM_ID=${{ vars.LLM_ID_INFERENCE }} \
             LLM_URL=${{ vars.LLM_URL_INFERENCE }} \
